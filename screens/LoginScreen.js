@@ -1,7 +1,14 @@
 import React from 'react';
-import {View, StyleSheet, Text, TextInput, Image} from 'react-native';
+import {
+  View,
+  StyleSheet,
+  Text,
+  TextInput,
+  Image,
+  Pressable,
+} from 'react-native';
 import {TouchableOpacity} from 'react-native-gesture-handler';
-const LoginScreen = () => {
+const LoginScreen = ({navigation}) => {
   return (
     <View style={styles.container}>
       <View style={styles.headerWrapper}>
@@ -13,6 +20,12 @@ const LoginScreen = () => {
         <TouchableOpacity style={styles.btn}>
           <Text style={styles.btnText}>Login</Text>
         </TouchableOpacity>
+        <View>
+          <Text>Don't have an account?</Text>
+          <Pressable onPress={() => navigation.navigate('Register')}>
+            <Text>Sign Up</Text>
+          </Pressable>
+        </View>
       </View>
       <Text style={styles.mutedText}>or continue with</Text>
       <View style={styles.socialWrapper}>

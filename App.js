@@ -22,15 +22,18 @@ import PlayerWidget from './components/PlayerWidget';
 import {TrackContextProvider} from './contexts/TrackContext';
 import {WidgetContextProvider} from './contexts/WidgetContext';
 import {PlayingContextProvider} from './contexts/PlayingContext';
+import Providers from './navigation';
 const App = () => {
   return (
     <TrackContextProvider>
       <PlayingContextProvider>
         <WidgetContextProvider>
-          <NavigationContainer theme={DarkTheme}>
-            <BottomTabNavigator />
-            {/* <PlayerWidget /> */}
-          </NavigationContainer>
+          {/* <NavigationContainer theme={DarkTheme}> */}
+          {/* <BottomTabNavigator /> */}
+          {/* <PlayerWidget /> */}
+          {/* <Router /> */}
+          <Providers />
+          {/* </NavigationContainer> */}
         </WidgetContextProvider>
       </PlayingContextProvider>
     </TrackContextProvider>
