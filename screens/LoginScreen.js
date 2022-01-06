@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState, useContext} from 'react';
 import {
   View,
   StyleSheet,
@@ -8,16 +8,32 @@ import {
   Pressable,
 } from 'react-native';
 import {TouchableOpacity} from 'react-native-gesture-handler';
+import {AuthContext} from '../contexts/AuthProvider';
 const LoginScreen = ({navigation}) => {
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const {login} = useContext(AuthContext);
   return (
     <View style={styles.container}>
       <View style={styles.headerWrapper}>
         <Text style={styles.logoText}> Airplay</Text>
       </View>
       <View style={styles.inputWrapper}>
-        <TextInput style={styles.inputField} placeholder="Username or Email" />
-        <TextInput placeholder="Password" style={styles.inputField} />
-        <TouchableOpacity style={styles.btn}>
+        <TextInput
+          style={styles.inputField}
+          placeholder="Username or Email"
+          value={email}
+          onChangeText={email => setEmail(email)}
+        />
+        <TextInput
+          placeholder="Password"
+          style={styles.inputField}
+          value={password}
+          onChangeText={password => setPassword(password)}
+        />
+        <TouchableOpacity
+          style={styles.btn}
+          onPress={() => login(email, password)}>
           <Text style={styles.btnText}>Login</Text>
         </TouchableOpacity>
         <View>
