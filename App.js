@@ -25,8 +25,6 @@ import PlayerScreen from './screens/PlayerScreen';
 import Providers from './navigation';
 import MiniPlayer from './components/MiniPlayer';
 import MacroPlayer from './components/MacroPlayer';
-import PlayerWidget from './components/PlayerWidget';
-import Test from './components/Test';
 import MusicPlayerWidget from './components/MusicPlayerWidget';
 const App = () => {
   const [isMinimize, setIsMinimize] = useState(true);
