@@ -2,12 +2,14 @@ import React, {useState, useEffect, useContext} from 'react';
 import {SafeAreaView, StyleSheet, Text, View, Image} from 'react-native';
 import Slider from '@react-native-community/slider';
 import Ionicon from 'react-native-vector-icons/Ionicons';
+import Icon from 'react-native-vector-icons/Feather';
 import {TrackContext} from '../contexts/TrackContext';
 import TrackPlayer, {useProgress, Capability} from 'react-native-track-player';
 import {PlayingContext} from '../contexts/PlayingContext';
 import {app} from '../config/firebase';
 import {getFirestore, collection, getDoc, doc} from 'firebase/firestore/lite';
 import {TouchableOpacity} from 'react-native-gesture-handler';
+import LinearGradient from 'react-native-linear-gradient';
 const PlayingScreen = () => {
   const [currentTrackId, setCurrentTrackId] = useContext(TrackContext);
   const imageUrl = 'http://donapr.com/wp-content/uploads/2016/03/RRUe0Mo.png';
@@ -91,57 +93,72 @@ const PlayingScreen = () => {
   }, [currentTrackId]);
   return (
     <View style={styles.container}>
-      <Image source={{uri: currentTrack?.artwork}} style={styles.artWork} />
-      <View style={styles.trackDetails}>
-        <View style={styles.trackDetails}>
-          <Text style={styles.trackName}>{currentTrack?.name}</Text>
-          <Text style={styles.artistName}>{currentTrack?.artist}</Text>
+      <LinearGradient
+        colors={['#0984e3', '#000000']}
+        style={styles.linearGradient}>
+        <View style={styles.headerWrapper}>
+          <Ionicon name="chevron-down-outline" color="#fff" size={35} />
         </View>
-      </View>
-      <View style={styles.trackDuration}>
-        {/* <View style={styles.progressBar}>
+        <Image source={{uri: currentTrack?.artwork}} style={styles.artWork} />
+        <View style={styles.trackDetailsWrapper}>
+          <View style={styles.trackDetails}>
+            <Text style={styles.trackName}>{currentTrack?.name}</Text>
+            <Text style={styles.artistName}>{currentTrack?.artist}</Text>
+          </View>
+
+          <Ionicon name="heart-outline" size={35} color="#fff" />
+        </View>
+        <View style={styles.trackDuration}>
+          {/* <View style={styles.progressBar}>
 
         </View> */}
-        <Slider
-          style={{width: '100%', height: 40}}
-          minimumValue={0}
-          maximumValue={duration}
-          value={position}
-          minimumTrackTintColor="#FFFFFF"
-          maximumTrackTintColor="#FFFFFF"
-          onSlidingComplete={handleSliderChange}
-        />
-        <View style={styles.trackTimer}>
-          <Text style={styles.timeCount}>{formatTrackTime(position)}</Text>
-          <Text style={styles.totalDuration}>{formatTrackTime(duration)}</Text>
+          <Slider
+            style={{width: '100%', height: 40}}
+            minimumValue={0}
+            maximumValue={duration}
+            value={position}
+            minimumTrackTintColor="#FFFFFF"
+            maximumTrackTintColor="#FFFFFF"
+            onSlidingComplete={handleSliderChange}
+          />
+          <View style={styles.trackTimer}>
+            <Text style={styles.timeCount}>{formatTrackTime(position)}</Text>
+            <Text style={styles.totalDuration}>
+              {formatTrackTime(duration)}
+            </Text>
+          </View>
         </View>
-      </View>
 
-      <View style={styles.playerControls}>
-        <Ionicon name="shuffle-outline" size={38} color="white" />
-        <Ionicon name="play-skip-back-circle-outline" size={38} color="white" />
-        {playing ? (
+        <View style={styles.playerControls}>
+          <Ionicon name="shuffle-outline" size={45} color="white" />
           <Ionicon
-            name="pause-circle-outline"
-            size={38}
+            name="play-skip-back-circle-outline"
+            size={45}
             color="white"
-            onPress={onPause}
           />
-        ) : (
+          {playing ? (
+            <Ionicon
+              name="pause-circle-outline"
+              size={50}
+              color="white"
+              onPress={onPause}
+            />
+          ) : (
+            <Ionicon
+              name="play-circle-outline"
+              size={50}
+              color="white"
+              onPress={onPlay}
+            />
+          )}
           <Ionicon
-            name="play-circle-outline"
-            size={38}
+            name="play-skip-forward-circle-outline"
+            size={50}
             color="white"
-            onPress={onPlay}
           />
-        )}
-        <Ionicon
-          name="play-skip-forward-circle-outline"
-          size={38}
-          color="white"
-        />
-        <Ionicon name="repeat" size={38} color="white" />
-      </View>
+          <Ionicon name="repeat" size={50} color="white" />
+        </View>
+      </LinearGradient>
     </View>
   );
 };
@@ -151,28 +168,37 @@ export default PlayingScreen;
 const styles = StyleSheet.create({
   container: {
     backgroundColor: '#000',
-    width: '100%',
-    height: '100%',
-    padding: 15,
+    flex: 1,
   },
+  linearGradient: {
+    padding: 20,
+  },
+  headerWrapper: {},
   artWork: {
-    width: '100%',
+    width: 300,
     height: 300,
+    alignSelf: 'center',
+    marginTop: 20,
+  },
+  trackDetailsWrapper: {
+    flexDirection: 'row',
+    marginTop: 10,
+    alignItems: 'center',
+    justifyContent: 'space-between',
   },
   trackDetails: {
-    width: '100%',
-    marginTop: 15,
+    marginTop: 10,
   },
   trackName: {
     color: '#fff',
     fontWeight: 'bold',
-    fontSize: 20,
+    fontSize: 26,
     textTransform: 'capitalize',
   },
   artistName: {
     color: 'gray',
-    fontWeight: '400',
-    fontSize: 16,
+    fontWeight: '700',
+    fontSize: 18,
     textTransform: 'capitalize',
     marginTop: 7,
   },
@@ -200,6 +226,6 @@ const styles = StyleSheet.create({
     width: '100%',
     flexDirection: 'row',
     justifyContent: 'space-between',
-    marginTop: 30,
+    marginTop: 20,
   },
 });

@@ -7,6 +7,7 @@ import SearchScreen from '../screens/SearchScreen';
 import LoginScreen from '../screens/LoginScreen';
 import RegisterScreen from '../screens/RegisterScreen';
 import LibraryScreen from '../screens/LibraryScreen';
+import ProfileScreen from '../screens/ProfileScreen';
 import {TopTabs} from './TopTabNavigator';
 import Icon from 'react-native-vector-icons/Ionicons';
 import EIcon from 'react-native-vector-icons/Entypo';
@@ -28,13 +29,17 @@ export default BottomTabNavigator = () => {
               onPress={setShowWidget(true)}
             />
           ),
+          tabBarActiveTintColor: '#fff',
+          tabBarLabelStyle: {fontSize: 14, fontWeight: '500'},
         }}
       />
       <Tab.Screen
         name="Search"
-        component={RegisterScreen}
+        component={SearchScreen}
         options={{
           tabBarIcon: () => <Icon name="search" size={28} color="#fff" />,
+          tabBarActiveTintColor: '#fff',
+          tabBarLabelStyle: {fontSize: 14, fontWeight: '500'},
         }}
       />
       <Tab.Screen
@@ -44,6 +49,17 @@ export default BottomTabNavigator = () => {
           tabBarIcon: () => (
             <MIcon name="music-box-multiple" size={28} color="#fff" />
           ),
+          tabBarActiveTintColor: '#fff',
+          tabBarLabelStyle: {fontSize: 14, fontWeight: '500'},
+        }}
+      />
+      <Tab.Screen
+        name="Profile"
+        component={ProfileScreen}
+        options={{
+          tabBarIcon: () => <Icon name="person" size={28} color="#fff" />,
+          tabBarActiveTintColor: '#fff',
+          tabBarLabelStyle: {fontSize: 14, fontWeight: '500'},
         }}
       />
     </Tab.Navigator>

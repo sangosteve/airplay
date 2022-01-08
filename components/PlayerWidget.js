@@ -13,7 +13,7 @@ import {
   TouchableWithoutFeedback,
 } from 'react-native-gesture-handler';
 
-const PlayerWidget = () => {
+const PlayerWidget = ({onTest}) => {
   const [currentTrackId, setCurrentTrackId] = useContext(TrackContext);
   const [showWidget, setShowWidget] = useContext(WidgetContext);
   const [loading, setLoading] = useState(true);
@@ -67,6 +67,10 @@ const PlayerWidget = () => {
 
   return (
     <View style={[styles.container, {display: showWidget ? 'flex' : 'none'}]}>
+      <TouchableOpacity onPress={onTest}>
+        <Text>Click Me</Text>
+      </TouchableOpacity>
+
       <View style={styles.trackDetails}>
         <Image source={{uri: currentTrack?.artwork}} style={styles.image} />
         <View style={styles.textContainer}>
@@ -75,6 +79,7 @@ const PlayerWidget = () => {
           {/* <Text style={styles.artist}>{currentTrackId}</Text> */}
         </View>
       </View>
+
       <View style={styles.iconContainer}>
         {/* <Ionicon name="heart-outline" size={30} color="white" /> */}
         <Ionicon
@@ -116,7 +121,7 @@ export default PlayerWidget;
 const styles = StyleSheet.create({
   container: {
     width: '100%',
-    backgroundColor: '#131313',
+    backgroundColor: '#1B1B1B',
     borderWidth: 2,
     borderBottomColor: 'black',
     borderTopColor: 'transparent',

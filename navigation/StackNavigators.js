@@ -19,22 +19,24 @@ export const HomeStackNavigator = () => {
           headerRight: () => (
             <Icon
               name="settings"
-              size={30}
+              size={24}
               color="#fff"
               onPress={() => navigation.navigate('Settings')}
+              style={{marginRight: 15}}
             />
           ),
         })}
       />
-      <Stack.Screen
+      {/* <Stack.Screen
         name="PlayingScreen"
         component={PlayingScreen}
         options={{
-          headerTitle: 'Now Playing',
-          headerLeft: () => <Icon name="chevron-down" size={28} color="#fff" />,
-          tabBarIcon: () => <Icon name="home" size={28} color="#000" />,
+          headerShown: false,
+          // headerTitle: 'Now Playing',
+          // headerLeft: () => <Icon name="chevron-down" size={28} color="#fff" />,
+          // tabBarIcon: () => <Icon name="home" size={28} color="#000" />,
         }}
-      />
+      /> */}
       <Stack.Screen
         name="Settings"
         component={SettingsScreen}

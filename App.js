@@ -6,7 +6,7 @@
  * @flow strict-local
  */
 
-import React from 'react';
+import React, {useState} from 'react';
 import {
   SafeAreaView,
   ScrollView,
@@ -18,22 +18,33 @@ import {
 } from 'react-native';
 import {NavigationContainer, DarkTheme} from '@react-navigation/native';
 import BottomTabNavigator from './navigation/BottomTabNavigator';
-import PlayerWidget from './components/PlayerWidget';
 import {TrackContextProvider} from './contexts/TrackContext';
 import {WidgetContextProvider} from './contexts/WidgetContext';
 import {PlayingContextProvider} from './contexts/PlayingContext';
+import PlayerScreen from './screens/PlayerScreen';
 import Providers from './navigation';
+import MiniPlayer from './components/MiniPlayer';
+import MacroPlayer from './components/MacroPlayer';
+import PlayerWidget from './components/PlayerWidget';
+import Test from './components/Test';
+import MusicPlayerWidget from './components/MusicPlayerWidget';
 const App = () => {
+  const [isMinimize, setIsMinimize] = useState(true);
+  const [vare, setVare] = useState('Hello World');
+  const onTest = () => {
+    console.warn('...docking');
+  };
   return (
     <TrackContextProvider>
       <PlayingContextProvider>
         <WidgetContextProvider>
-          {/* <NavigationContainer theme={DarkTheme}> */}
-          {/* <BottomTabNavigator /> */}
-          {/* <PlayerWidget /> */}
-          {/* <Router /> */}
           <Providers />
-          {/* </NavigationContainer> */}
+          {/* {isMinimize ? (
+            <MusicPlayerWidget onTest={onTest} vare={vare} />
+          ) : (
+            <MacroPlayer />
+          )} */}
+          <PlayerScreen />
         </WidgetContextProvider>
       </PlayingContextProvider>
     </TrackContextProvider>
