@@ -104,14 +104,14 @@ const MacroPlayer = ({_onMinimizeClick}) => {
         colors={['#bdc3c7', '#000000']}
         style={styles.linearGradient}>
         <View style={styles.headerWrapper}>
-          <Ionicon
-            name="chevron-down-outline"
+          <Icon
+            name="chevron-down"
             color="#fff"
-            size={35}
+            size={25}
             onPress={_onMinimizeClick}
           />
 
-          <Ionicon name="ellipsis-horizontal" color="#fff" size={35} />
+          <Icon name="more-horizontal" color="#fff" size={25} />
         </View>
         <Image source={{uri: currentTrack?.artwork}} style={styles.artWork} />
         <View style={styles.trackDetailsWrapper}>
@@ -127,7 +127,7 @@ const MacroPlayer = ({_onMinimizeClick}) => {
 
         </View> */}
           <Slider
-            style={{width: '100%', height: 40}}
+            style={{width: '100%', height: 30}}
             minimumValue={0}
             maximumValue={duration}
             value={position}

@@ -2,8 +2,6 @@ import React, {useState} from 'react';
 import {StyleSheet, Text, View, Dimensions} from 'react-native';
 import MiniPlayer from '../components/MiniPlayer';
 import MacroPlayer from '../components/MacroPlayer';
-import MusicPlayerWidget from '../components/MusicPlayerWidget';
-
 const {height: wHeight, width: wWidth} = Dimensions.get('window');
 const dockHeight = wHeight * 0.08;
 const PlayerScreen = () => {
@@ -21,7 +19,7 @@ const PlayerScreen = () => {
   return (
     <View style={isMinimize ? styles.containerMini : styles.container}>
       {isMinimize ? (
-        <MusicPlayerWidget onTest={onTest} _onDock={_onDock} />
+        <MiniPlayer onTest={onTest} _onDock={_onDock} dockHeight={dockHeight} />
       ) : (
         <MacroPlayer
           wWidth={wWidth}

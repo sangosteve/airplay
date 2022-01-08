@@ -127,9 +127,7 @@ const styles = StyleSheet.create({
     borderTopColor: 'transparent',
     position: 'absolute',
     bottom: 49,
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
+
     zIndex: 2,
   },
   trackDetails: {
