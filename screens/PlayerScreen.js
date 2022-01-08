@@ -23,7 +23,11 @@ const PlayerScreen = () => {
       {isMinimize ? (
         <MusicPlayerWidget onTest={onTest} _onDock={_onDock} />
       ) : (
-        <MacroPlayer _onMinimizeClick={_onMinimizeClick} />
+        <MacroPlayer
+          wWidth={wWidth}
+          wHeight={wHeight}
+          _onMinimizeClick={_onMinimizeClick}
+        />
       )}
     </View>
   );
