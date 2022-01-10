@@ -69,7 +69,11 @@ const MiniPlayer = ({onTest, _onDock, dockHeight}) => {
   }, [currentTrackId]);
 
   return (
-    <View style={{width: wWidth, height: dockHeight}}>
+    <View
+      style={{
+        width: wWidth,
+        height: dockHeight,
+      }}>
       <TouchableWithoutFeedback onPress={_onDock}>
         <View
           style={{

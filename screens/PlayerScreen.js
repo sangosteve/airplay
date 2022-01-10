@@ -1,11 +1,14 @@
-import React, {useState} from 'react';
+import React, {useState, useContext} from 'react';
 import {StyleSheet, Text, View, Dimensions} from 'react-native';
 import MiniPlayer from '../components/MiniPlayer';
 import MacroPlayer from '../components/MacroPlayer';
+import {getFirestore, collection, getDoc, doc} from 'firebase/firestore/lite';
+import {TrackContext} from '../contexts/TrackContext';
 const {height: wHeight, width: wWidth} = Dimensions.get('window');
 const dockHeight = wHeight * 0.08;
 const PlayerScreen = () => {
   const [isMinimize, setIsMinimize] = useState(true);
+  const [currentTrackId, setCurrentTrackId] = useContext(TrackContext);
   const onTest = () => {
     console.warn('...docking');
   };
@@ -17,9 +20,18 @@ const PlayerScreen = () => {
     setIsMinimize(true);
   };
   return (
-    <View style={isMinimize ? styles.containerMini : styles.container}>
+    <View
+      style={[
+        isMinimize ? styles.containerMini : styles.container,
+        {display: currentTrackId != null ? 'flex' : 'none'},
+      ]}>
       {isMinimize ? (
-        <MiniPlayer onTest={onTest} _onDock={_onDock} dockHeight={dockHeight} />
+        <MiniPlayer
+          onTest={onTest}
+          _onDock={_onDock}
+          dockHeight={dockHeight}
+          showPlayer={currentTrackId ? true : false}
+        />
       ) : (
         <MacroPlayer
           wWidth={wWidth}
