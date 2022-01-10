@@ -17,7 +17,6 @@ const SongList = () => {
     }));
     setSongs(songList);
     setLoading(false);
-    console.warn(songs);
   };
 
   const start = async () => {

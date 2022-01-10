@@ -13,7 +13,6 @@ const PlayListComponent = () => {
     const songList = songSnapshot.docs.map(doc => doc.data());
     setPlaylists(songList);
     setLoading(false);
-    console.warn('playlists: ', playlists);
   };
 
   useEffect(() => {

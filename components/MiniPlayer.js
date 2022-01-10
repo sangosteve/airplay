@@ -6,6 +6,7 @@ import {
   Image,
   Dimensions,
   TouchableWithoutFeedback,
+  Pressable,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/Feather';
 import LinearGradient from 'react-native-linear-gradient';
@@ -15,58 +16,36 @@ import {WidgetContext} from '../contexts/WidgetContext';
 import {PlayingContext} from '../contexts/PlayingContext';
 import {app} from '../config/firebase';
 import {getFirestore, collection, getDoc, doc} from 'firebase/firestore/lite';
+import firestore from '@react-native-firebase/firestore';
 const {width: wWidth, height: wHeight} = Dimensions.get('window');
-const MiniPlayer = ({onTest, _onDock, dockHeight}) => {
-  const [currentTrackId, setCurrentTrackId] = useContext(TrackContext);
+const MiniPlayer = ({currentTrack, onTest, _onDock, dockHeight}) => {
   const [showWidget, setShowWidget] = useContext(WidgetContext);
-  const [loading, setLoading] = useState(true);
   const [playing, setPlaying] = useContext(PlayingContext);
-  const [currentTrack, setCurrentTrack] = useState();
-
+  const [isPlaying, setIsPlaying] = useState(true);
   const onPlay = () => {
     setPlaying(true);
-    playTrack();
+    TrackPlayer.play();
   };
   const onPause = () => {
-    setPlaying(false);
+    setIsPlaying(false);
     TrackPlayer.pause();
   };
 
-  const db = getFirestore(app);
-  const getCurrentTrack = async () => {
-    const docRef = doc(db, 'songs', currentTrackId);
-    const docSnap = await getDoc(docRef);
+  const onPlayPausePress = async () => {
+    const state = await TrackPlayer.getState();
 
-    if (docSnap.exists()) {
-      setCurrentTrack(docSnap.data());
-      // console.warn('Document data:', docSnap.data());
-    } else {
-      // doc.data() will be undefined in this case
-      console.warn('No such document!');
+    if (state === State.Playing) {
+      TrackPlayer.pause();
+      setIsPlaying(false);
+    }
+
+    if (state === State.Paused) {
+      TrackPlayer.play();
+      setIsPlaying(true);
     }
   };
 
-  const playTrack = async () => {
-    //console.warn(currentTrack);
-    // Set up the player
-    await TrackPlayer.setupPlayer();
-
-    // Add a track to the queue
-    await TrackPlayer.add({
-      id: 'Track Id',
-      url: currentTrack?.file,
-      title: currentTrack?.name,
-      artist: currentTrack?.artist,
-      artwork: currentTrack?.artwork,
-    });
-
-    // Start playing it
-    await TrackPlayer.play();
-    // navigation.navigate('PlayingScreen');
-  };
-  useEffect(() => {
-    getCurrentTrack();
-  }, [currentTrackId]);
+  const playOrPauseIcon = isPlaying ? 'play' : 'pause';
 
   return (
     <View
@@ -89,30 +68,16 @@ const MiniPlayer = ({onTest, _onDock, dockHeight}) => {
             <View style={styles.textContainer}>
               <Text style={styles.title}>{currentTrack?.name}</Text>
               <Text style={styles.artist}>{currentTrack?.artist}</Text>
-              {/* <Text style={styles.artist}>{currentTrackId}</Text> */}
             </View>
           </View>
           <View style={styles.iconContainer}>
-            {/* <Ionicon name="heart-outline" size={30} color="white" /> */}
             <Icon name="heart" size={20} color="white" />
-
-            {playing ? (
-              <Icon name="pause" size={20} color="white" onPress={onPause} />
-            ) : (
-              <Icon name="play" size={20} color="white" onPress={onPlay} />
-            )}
+            <Pressable onPress={onPlayPausePress}>
+              <Icon name={playOrPauseIcon} size={20} color="white" />
+            </Pressable>
           </View>
         </View>
       </TouchableWithoutFeedback>
-      {/* <TouchableOpacity
-        onPress={_onDock}
-        style={{
-          backgroundColor: 'green',
-          height: '100%',
-          width: '100%',
-        }}>
-        <Text style={styles.text}>DOCK</Text>
-      </TouchableOpacity> */}
     </View>
   );
 };

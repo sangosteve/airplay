@@ -6,18 +6,21 @@ import {
   Image,
   TouchableWithoutFeedback,
 } from 'react-native';
-import {useNavigation} from '@react-navigation/native';
-import TrackPlayer from 'react-native-track-player';
+import TrackPlayer, {State} from 'react-native-track-player';
 import {TrackContext} from '../contexts/TrackContext';
-import {WidgetContext} from '../contexts/WidgetContext';
 const SongItemCard = ({song, songId}) => {
-  const navigation = useNavigation();
   const [currentTrackId, setCurrentTrackId] = useContext(TrackContext);
-  const [showWidget, setShowWidget] = useContext(WidgetContext);
+
   const onItemPress = async trackId => {
+    await TrackPlayer.stop();
+    await TrackPlayer.reset();
     setCurrentTrackId(trackId);
-    setShowWidget(false);
-    navigation.navigate('PlayingScreen');
+    await TrackPlayer.add({
+      url: song.file,
+      title: song.name,
+      artist: song.artist,
+      artwork: song.artwork,
+    });
   };
   const start = async () => {
     // Set up the player
@@ -31,15 +34,9 @@ const SongItemCard = ({song, songId}) => {
       artist: 'Track Artist',
       // artwork: require('track.png'),
     });
-
     // Start playing it
     await TrackPlayer.play();
-    // navigation.navigate('PlayingScreen');
   };
-
-  useEffect(() => {
-    setShowWidget(true);
-  }, []);
   return (
     <TouchableWithoutFeedback onPress={() => onItemPress(song.trackId)}>
       <View style={styles.container}>
@@ -47,7 +44,6 @@ const SongItemCard = ({song, songId}) => {
         <View style={styles.songDetailsText}>
           <Text style={styles.songName}>{song.name}</Text>
           <Text style={styles.artistName}>{song.artist}</Text>
-          {/* <Text style={styles.artistName}>{songId}</Text> */}
         </View>
       </View>
     </TouchableWithoutFeedback>

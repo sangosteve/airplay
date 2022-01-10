@@ -10,7 +10,6 @@ import LibraryScreen from '../screens/LibraryScreen';
 import ProfileScreen from '../screens/ProfileScreen';
 import {TopTabs} from './TopTabNavigator';
 import Icon from 'react-native-vector-icons/Ionicons';
-import EIcon from 'react-native-vector-icons/Entypo';
 import MIcon from 'react-native-vector-icons/MaterialCommunityIcons';
 import {WidgetContext} from '../contexts/WidgetContext';
 export default BottomTabNavigator = () => {

@@ -6,24 +6,27 @@ import {
   TouchableOpacity,
   Image,
   Dimensions,
+  Pressable,
 } from 'react-native';
 import Slider from '@react-native-community/slider';
 import Ionicon from 'react-native-vector-icons/Ionicons';
 import Icon from 'react-native-vector-icons/Feather';
 import {TrackContext} from '../contexts/TrackContext';
-import TrackPlayer, {useProgress, Capability} from 'react-native-track-player';
+import TrackPlayer, {
+  useProgress,
+  Capability,
+  State,
+} from 'react-native-track-player';
 import {PlayingContext} from '../contexts/PlayingContext';
 import {app} from '../config/firebase';
 import {getFirestore, collection, getDoc, doc} from 'firebase/firestore/lite';
 import LinearGradient from 'react-native-linear-gradient';
 const {width: wWidth, height: wHeight} = Dimensions.get('window');
 
-const MacroPlayer = ({_onMinimizeClick}) => {
+const MacroPlayer = ({currentTrack, _onMinimizeClick}) => {
   const [playing, setPlaying] = useContext(PlayingContext);
-  const [currentTrackId, setCurrentTrackId] = useContext(TrackContext);
-  const [currentTrack, setCurrentTrack] = useState();
+  const [isPlaying, setIsPlaying] = useState(true);
   const {position, duration} = useProgress();
-  const db = getFirestore(app);
 
   const handleSliderChange = val => {
     TrackPlayer.seekTo(val);
@@ -36,31 +39,17 @@ const MacroPlayer = ({_onMinimizeClick}) => {
     return `${minutes}:${seconds}`;
   };
 
-  TrackPlayer.updateOptions({
-    // Media controls capabilities
-    capabilities: [
-      Capability.Play,
-      Capability.Pause,
-      Capability.SkipToNext,
-      Capability.SkipToPrevious,
-      Capability.Stop,
-    ],
-    // Capabilities that will show up when the notification is in the compact form on Android
-    compactCapabilities: [Capability.Play, Capability.Pause],
-  });
+  // const getCurrentTrack = async () => {
+  //   const docRef = doc(db, 'songs', currentTrackId);
+  //   const docSnap = await getDoc(docRef);
 
-  const getCurrentTrack = async () => {
-    const docRef = doc(db, 'songs', currentTrackId);
-    const docSnap = await getDoc(docRef);
-
-    if (docSnap.exists()) {
-      setCurrentTrack(docSnap.data());
-      console.warn('Document data:', docSnap.data());
-    } else {
-      // doc.data() will be undefined in this case
-      console.warn('No such document!');
-    }
-  };
+  //   if (docSnap.exists()) {
+  //     setCurrentTrack(docSnap.data());
+  //   } else {
+  //     // doc.data() will be undefined in this case
+  //     console.warn('No such document!');
+  //   }
+  // };
 
   const playTrack = async () => {
     //console.warn(currentTrack);
@@ -92,12 +81,21 @@ const MacroPlayer = ({_onMinimizeClick}) => {
     // console.warn(playing);
   };
 
-  useEffect(() => {
-    getCurrentTrack();
+  const onPlayPausePress = async () => {
+    const state = await TrackPlayer.getState();
 
-    // playTrack();
-  }, [currentTrackId]);
+    if (state === State.Playing) {
+      TrackPlayer.pause();
+      setIsPlaying(false);
+    }
 
+    if (state === State.Paused) {
+      TrackPlayer.play();
+      setIsPlaying(true);
+    }
+  };
+
+  const playOrPauseIcon = isPlaying ? 'play-circle' : 'pause';
   return (
     <View style={styles.container}>
       <LinearGradient
@@ -145,11 +143,10 @@ const MacroPlayer = ({_onMinimizeClick}) => {
         <View style={styles.playerControls}>
           <Icon name="shuffle" size={25} color="white" />
           <Icon name="skip-back" size={25} color="white" />
-          {playing ? (
-            <Icon name="pause" size={25} color="white" onPress={onPause} />
-          ) : (
-            <Icon name="play-circle" size={25} color="white" onPress={onPlay} />
-          )}
+          <Pressable onPress={onPlayPausePress}>
+            <Icon name={playOrPauseIcon} size={25} color="white" />
+          </Pressable>
+
           <Icon name="skip-forward" size={25} color="white" />
           <Icon name="repeat" size={25} color="white" />
         </View>
@@ -158,10 +155,6 @@ const MacroPlayer = ({_onMinimizeClick}) => {
           <Icon name="menu" size={25} color="white" />
         </View>
       </LinearGradient>
-      {/* <Text style={styles.trackName}> Macro Player</Text>
-      <TouchableOpacity onPress={_onMinimizeClick}>
-        <Text style={styles.text}>Minimize Player</Text>
-      </TouchableOpacity> */}
     </View>
   );
 };

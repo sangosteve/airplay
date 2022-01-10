@@ -2,12 +2,6 @@ import React from 'react';
 import {StyleSheet, Text, View, Image} from 'react-native';
 import moment from 'moment';
 const PlayListItemCard = ({playlist}) => {
-  const playList = {
-    albumTitle: 'Escape Trax',
-    albumCover: require('../assets/unsplash1.jpg'),
-    createDate: 'Dec 21',
-  };
-
   return (
     <View style={styles.container}>
       <View style={styles.overLay}>

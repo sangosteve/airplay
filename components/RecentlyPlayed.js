@@ -14,7 +14,6 @@ const RecentlyPlayed = () => {
     const songList = songSnapshot.docs.map(doc => doc.data());
     setSongs(songList);
     setLoading(false);
-    // console.warn(songs);
   };
   React.useEffect(() => {
     getSongs();

@@ -1,4 +1,4 @@
-import React, {useState, useEffect, useContext} from 'react';
+import React, {useState, useEffect, useContext, createRef} from 'react';
 import {Text} from 'react-native';
 import {NavigationContainer, DarkTheme} from '@react-navigation/native';
 import auth from '@react-native-firebase/auth';
