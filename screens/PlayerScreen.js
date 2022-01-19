@@ -51,7 +51,7 @@ const PlayerScreen = () => {
         setCurrentTrackId(docSnapShot.id);
         setCurrentTrack(docSnapShot.data());
         setLoading(false);
-        console.warn(currentTrackId);
+        // console.warn(currentTrackId);
         //Play Track
         if (State.Playing || State.Paused) {
           TrackPlayer.stop();

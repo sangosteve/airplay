@@ -30,6 +30,7 @@ const LoginScreen = ({navigation}) => {
           style={styles.inputField}
           value={password}
           onChangeText={password => setPassword(password)}
+          secureTextEntry={true}
         />
         <TouchableOpacity
           style={styles.btn}

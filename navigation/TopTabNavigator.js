@@ -8,10 +8,12 @@ const Tab = createMaterialTopTabNavigator();
 
 export const TopTabs = () => {
   return (
+ 
     <Tab.Navigator>
       <Tab.Screen name="Playlists" component={PlaylistsScreen} />
       <Tab.Screen name="Albums" component={AlbumsScreen} />
       <Tab.Screen name="Artists" component={MyArtistsScreen} />
     </Tab.Navigator>
   );
+  
 };

@@ -14,8 +14,8 @@ import Icon from 'react-native-vector-icons/Feather';
 import {TrackContext} from '../contexts/TrackContext';
 import TrackPlayer, {
   useProgress,
-  Capability,
   State,
+  usePlaybackState,
 } from 'react-native-track-player';
 import {PlayingContext} from '../contexts/PlayingContext';
 import {app} from '../config/firebase';
@@ -23,11 +23,22 @@ import {getFirestore, collection, getDoc, doc} from 'firebase/firestore/lite';
 import LinearGradient from 'react-native-linear-gradient';
 const {width: wWidth, height: wHeight} = Dimensions.get('window');
 
+const togglePlayback = async playbackState => {
+  const currentTrack = await TrackPlayer.getCurrentTrack();
+
+  if (currentTrack !== null) {
+    if (playbackState === State.Paused) {
+      await TrackPlayer.play();
+    } else {
+      await TrackPlayer.pause();
+    }
+  }
+};
 const MacroPlayer = ({currentTrack, _onMinimizeClick}) => {
   const [playing, setPlaying] = useContext(PlayingContext);
   const [isPlaying, setIsPlaying] = useState(true);
   const {position, duration} = useProgress();
-
+  const playbackState = usePlaybackState();
   const handleSliderChange = val => {
     TrackPlayer.seekTo(val);
   };
@@ -38,18 +49,6 @@ const MacroPlayer = ({currentTrack, _onMinimizeClick}) => {
     if (seconds < 10) seconds = `0${seconds}`;
     return `${minutes}:${seconds}`;
   };
-
-  // const getCurrentTrack = async () => {
-  //   const docRef = doc(db, 'songs', currentTrackId);
-  //   const docSnap = await getDoc(docRef);
-
-  //   if (docSnap.exists()) {
-  //     setCurrentTrack(docSnap.data());
-  //   } else {
-  //     // doc.data() will be undefined in this case
-  //     console.warn('No such document!');
-  //   }
-  // };
 
   const playTrack = async () => {
     //console.warn(currentTrack);
@@ -95,7 +94,7 @@ const MacroPlayer = ({currentTrack, _onMinimizeClick}) => {
     }
   };
 
-  const playOrPauseIcon = isPlaying ? 'play-circle' : 'pause';
+  const playOrPauseIcon = isPlaying ? 'pause' : 'play-circle';
   return (
     <View style={styles.container}>
       <LinearGradient
@@ -143,8 +142,12 @@ const MacroPlayer = ({currentTrack, _onMinimizeClick}) => {
         <View style={styles.playerControls}>
           <Icon name="shuffle" size={25} color="white" />
           <Icon name="skip-back" size={25} color="white" />
-          <Pressable onPress={onPlayPausePress}>
-            <Icon name={playOrPauseIcon} size={25} color="white" />
+          <Pressable onPress={() => togglePlayback(playbackState)}>
+            <Icon
+              name={playbackState === State.Playing ? 'pause' : 'play'}
+              size={25}
+              color="white"
+            />
           </Pressable>
 
           <Icon name="skip-forward" size={25} color="white" />

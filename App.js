@@ -18,7 +18,7 @@ const App = () => {
       <PlayingContextProvider>
         <WidgetContextProvider>
           <Providers />
-          <PlayerScreen />
+          {/* <PlayerScreen /> */}
         </WidgetContextProvider>
       </PlayingContextProvider>
     </TrackContextProvider>

@@ -12,55 +12,62 @@ import {TopTabs} from './TopTabNavigator';
 import Icon from 'react-native-vector-icons/Ionicons';
 import MIcon from 'react-native-vector-icons/MaterialCommunityIcons';
 import {WidgetContext} from '../contexts/WidgetContext';
+import {TrackContext} from '../contexts/TrackContext';
+import PlayerScreen from '../screens/PlayerScreen';
 export default BottomTabNavigator = () => {
   const [showWidget, setShowWidget] = useContext(WidgetContext);
+  const [currentTrackId, setCurrentTrackId] = useContext(TrackContext);
+
   return (
-    <Tab.Navigator screenOptions={{headerShown: false}}>
-      <Tab.Screen
-        name="Home"
-        component={HomeStackNavigator}
-        options={{
-          tabBarIcon: () => (
-            <Icon
-              name="home"
-              size={28}
-              color="#fff"
-              onPress={setShowWidget(true)}
-            />
-          ),
-          tabBarActiveTintColor: '#fff',
-          tabBarLabelStyle: {fontSize: 14, fontWeight: '500'},
-        }}
-      />
-      <Tab.Screen
-        name="Search"
-        component={SearchScreen}
-        options={{
-          tabBarIcon: () => <Icon name="search" size={28} color="#fff" />,
-          tabBarActiveTintColor: '#fff',
-          tabBarLabelStyle: {fontSize: 14, fontWeight: '500'},
-        }}
-      />
-      <Tab.Screen
-        name="Library"
-        component={TopTabs}
-        options={{
-          tabBarIcon: () => (
-            <MIcon name="music-box-multiple" size={28} color="#fff" />
-          ),
-          tabBarActiveTintColor: '#fff',
-          tabBarLabelStyle: {fontSize: 14, fontWeight: '500'},
-        }}
-      />
-      <Tab.Screen
-        name="Profile"
-        component={ProfileScreen}
-        options={{
-          tabBarIcon: () => <Icon name="person" size={28} color="#fff" />,
-          tabBarActiveTintColor: '#fff',
-          tabBarLabelStyle: {fontSize: 14, fontWeight: '500'},
-        }}
-      />
-    </Tab.Navigator>
+    <>
+      <Tab.Navigator screenOptions={{headerShown: false}}>
+        <Tab.Screen
+          name="Home"
+          component={HomeStackNavigator}
+          options={{
+            tabBarIcon: () => (
+              <Icon
+                name="home"
+                size={28}
+                color="#fff"
+                onPress={setShowWidget(true)}
+              />
+            ),
+            tabBarActiveTintColor: '#fff',
+            tabBarLabelStyle: {fontSize: 14, fontWeight: '500'},
+          }}
+        />
+        <Tab.Screen
+          name="Search"
+          component={SearchScreen}
+          options={{
+            tabBarIcon: () => <Icon name="search" size={28} color="#fff" />,
+            tabBarActiveTintColor: '#fff',
+            tabBarLabelStyle: {fontSize: 14, fontWeight: '500'},
+          }}
+        />
+        <Tab.Screen
+          name="Library"
+          component={TopTabs}
+          options={{
+            tabBarIcon: () => (
+              <MIcon name="music-box-multiple" size={28} color="#fff" />
+            ),
+            tabBarActiveTintColor: '#fff',
+            tabBarLabelStyle: {fontSize: 14, fontWeight: '500'},
+          }}
+        />
+        <Tab.Screen
+          name="Profile"
+          component={ProfileScreen}
+          options={{
+            tabBarIcon: () => <Icon name="person" size={28} color="#fff" />,
+            tabBarActiveTintColor: '#fff',
+            tabBarLabelStyle: {fontSize: 14, fontWeight: '500'},
+          }}
+        />
+      </Tab.Navigator>
+      <PlayerScreen />
+    </>
   );
 };
